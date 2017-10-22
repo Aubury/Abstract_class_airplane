@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Abstract_class_airplane
 {
-    class Interceptor
+    class Interceptor:AirPlane
     {
+        public Interceptor(int capacity, float consuption, int altitudeIncrement) : base(capacity, consuption, altitudeIncrement) { }
     }
 }

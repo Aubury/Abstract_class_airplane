@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Abstract_class_airplane
 {
-    class Passenger
+    class Passenger:AirPlane
     {
+        public Passenger(int capacity, float consuption, int altitudeIncrement) : base(capacity, consuption, altitudeIncrement) { }
+
     }
 }
