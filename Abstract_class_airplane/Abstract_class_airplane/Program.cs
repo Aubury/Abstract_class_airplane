@@ -21,13 +21,20 @@ namespace Abstract_class_airplane
         {
             AirPlane An_225 = new Transport(6+88, 15.9F, 280);
             AirPlane Boeing_747 = new Passenger(149, 10.5F, 220);
-            AirPlane Mig_31 = new Interceptor(2, 2.1F, 220);
+            AirPlane Mig_31 = new Interceptor(2, 2.1F, 2000);
           
 
-            Console.WriteLine(Airbus_A330.Altitude);
-            Airbus_A330.SetAltitude(8000);
+           // An_225.SetAltitude(12000);
             Console.WriteLine("===========================================================================================");
-            Airbus_A330.Switch();
+            Console.WriteLine("Plane AN-225");
+            An_225.Switch();
+            Console.WriteLine("===========================================================================================");
+            Console.WriteLine("Plane Boeing-747");
+            Boeing_747.Switch();
+            Console.WriteLine("===========================================================================================");
+            Console.WriteLine("Plane Mig-31");
+            Mig_31.Switch();
+            Console.WriteLine("===========================================================================================");
 
             Console.ReadLine();
         }

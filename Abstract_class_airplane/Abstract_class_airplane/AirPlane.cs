@@ -11,15 +11,17 @@ namespace Abstract_class_airplane
         public int Capacity { get; private set; }//Вместимость
         public bool AutoPilotOn { get; set; } //автопилот
         public float Consumption { get; private set; } //расход топлева /// Fuel consumption. kg/km
-        public int Altitude { get; private set; } //высота над уровнем моря
-        public static decimal TicketPrice { get; set; }
+        public int Altitude { get; set; } //высота над уровнем моря
+       public static decimal TicketPrice { get; set; }
         public static int MinAltitudeAuto { get; set; }
         public static int MaxAltitudeAuto { get; set; }
+        public static int Max_Hieght_Fly { get; set; }
         private int _altitudeIncrement;
         static  AirPlane()
         {
             MinAltitudeAuto = 2000;
             MaxAltitudeAuto = 10000;
+            Max_Hieght_Fly = 11000;
 
         }
         public AirPlane(int capacity, float consuption, int altitudeIncrement)
@@ -33,18 +35,35 @@ namespace Abstract_class_airplane
        
         public int Climb(int increment)
         {
-            if (!AutoPilotOn) return Altitude += increment;
-
-            if (Altitude + increment < MaxAltitudeAuto)
+           if(!AutoPilotOn && Altitude + increment > MinAltitudeAuto && Altitude + increment < MaxAltitudeAuto )
             {
-                return Altitude += increment;
+                Console.WriteLine("---------------------------------------");
+                Console.WriteLine("Do you want to turn on the autopilot?");
+                Console.WriteLine("Enable, press '1'\nSwitch off, press '0'.");
+                int autopilot = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("---------------------------------------");
+                if (autopilot == 1) { AutoPilotOn = true; return Altitude += increment; }
+                else { return Altitude += increment; }
             }
 
-            return Altitude = MaxAltitudeAuto;
+            if (AutoPilotOn && Altitude + increment > MaxAltitudeAuto)
+            {
+                Console.WriteLine("---------------------------------------");
+                Console.WriteLine("You need to turn off the autopilot");
+                Console.WriteLine("Enable, press '1'\nSwitch off, press '0'.");
+                int autopilot = Int32.Parse(Console.ReadLine());
+                Console.WriteLine("---------------------------------------");
+                if (autopilot == 0) { AutoPilotOn = false; return Altitude += increment; }
+                else
+                    return Altitude = MaxAltitudeAuto;
+
+            }
+            return Altitude += increment;
         }
 
         public int Down(int increment)
         {
+
             if (AutoPilotOn)
             {
                 if (Altitude - increment > MinAltitudeAuto)
@@ -52,19 +71,20 @@ namespace Abstract_class_airplane
                     return Altitude -= increment;
                 }
                 if (Altitude < MinAltitudeAuto) return Altitude;
-                //return Altitude = MinAltitudeAuto;
+                return Altitude = MinAltitudeAuto;
             }
 
             if (Altitude - increment < 0) return Altitude = 0;
             return Altitude -= increment;
         }
-        public int Forsage(int increment)
+        public virtual int Forsage(int increment)
         {
             if (increment * 2 > MaxAltitudeAuto) AutoPilotOn = false;
+            if (increment * 2 > Max_Hieght_Fly) { return Altitude = Max_Hieght_Fly; }
             return Altitude = increment * 2;
 
         }
-        public void Switch()
+        public virtual void Switch()
         {
             do
             {
@@ -97,7 +117,10 @@ namespace Abstract_class_airplane
                         Console.WriteLine("Enter altitude settings: ");
                         int height = Int32.Parse(Console.ReadLine());
 
-                        Altitude = height;
+                        if (height <= Max_Hieght_Fly) { Altitude = height; }
+
+                        if (height > Max_Hieght_Fly)
+                        { Console.WriteLine($"Height should not be more than {Max_Hieght_Fly}"); Altitude = Max_Hieght_Fly; }
 
                         if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
                         Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
@@ -115,21 +138,19 @@ namespace Abstract_class_airplane
         }
         public void SetAltitude(int targetAlitude)
         {
-            int speed = 100;
-
-            do
+             do
             {
-                Climb(speed);
-                if (Altitude > MinAltitudeAuto) AutoPilotOn = true;
-                if (AutoPilotOn == true) Altitude = MaxAltitudeAuto;
+                Climb(_altitudeIncrement);
+             //   if (Altitude > MinAltitudeAuto && Altitude < MaxAltitudeAuto) AutoPilotOn = true;
+             //  else AutoPilotOn = false;
                 Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
             }
             while (Altitude <= targetAlitude);
-
+            Console.WriteLine("-------------------------------------------");
             do
             {
-                Down(speed);
-                if (Altitude < MinAltitudeAuto) AutoPilotOn = false;
+                Down(_altitudeIncrement);
+               // if (Altitude < MinAltitudeAuto) AutoPilotOn = false;
                 Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
             }
             while (Altitude > 0);
@@ -138,4 +159,4 @@ namespace Abstract_class_airplane
     }
 
 }
-}
+
