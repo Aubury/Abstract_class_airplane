@@ -22,9 +22,9 @@ namespace Abstract_class_airplane
             AirPlane An_225 = new Transport(6+88, 15.9F, 280);
             AirPlane Boeing_747 = new Passenger(149, 10.5F, 220);
             AirPlane Mig_31 = new Interceptor(2, 2.1F, 2000);
-          
 
-           // An_225.SetAltitude(12000);
+
+            An_225.SetAltitude(12000);
             Console.WriteLine("===========================================================================================");
             Console.WriteLine("Plane AN-225");
             An_225.Switch();
