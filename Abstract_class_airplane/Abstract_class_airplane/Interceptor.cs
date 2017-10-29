@@ -11,13 +11,7 @@ namespace Abstract_class_airplane
         public Interceptor(int capacity, float consuption, int altitudeIncrement) 
             : base(capacity, consuption, altitudeIncrement) { }
         public new int Max_Hieght_Fly = 31500;
-        public override int Forsage(int increment)
-        {
-            if (increment * 2 > MaxAltitudeAuto) AutoPilotOn = false;
-            if (increment * 2 > Max_Hieght_Fly) { return Altitude = Max_Hieght_Fly; }
-            return Altitude = increment * 2;
-
-        }
+   
         public override void Switch()
         {
             do
@@ -42,12 +36,10 @@ namespace Abstract_class_airplane
                                 if (autopilot == 1 || autopilot == 0)
                                 {
                                     if (autopilot == 1 && Altitude > MinAltitudeAuto || autopilot == 1 && Altitude < MaxAltitudeAuto)
-                                    { AutoPilotOn = true;
-                                    }
+                                    { AutoPilotOn = true; }
 
                                     if (autopilot == 1 && Altitude < MinAltitudeAuto || autopilot == 1 && Altitude > MaxAltitudeAuto)
-                                    { Console.WriteLine("Sorry can not enable autopilot"); AutoPilotOn = false;
-                                    }
+                                    { Console.WriteLine("Sorry can not enable autopilot"); AutoPilotOn = false; }
 
                                     if (autopilot == 0) { AutoPilotOn = false; }
 
@@ -60,24 +52,52 @@ namespace Abstract_class_airplane
 
                                 }
                                 break;
+
                             case "C":
-                        Console.WriteLine("Enter altitude settings: ");
-                        int height = Int32.Parse(Console.ReadLine());
+                                try
+                                {
+                                    Console.WriteLine("Enter altitude settings: ");
+                                    int height = Int32.Parse(Console.ReadLine());
 
-                        if (height <= Max_Hieght_Fly) { Altitude = height; }
+                                    if (height <= Max_Hieght_Fly) { Altitude = height; }
 
-                        if (height > Max_Hieght_Fly)
-                        { Console.WriteLine($"Height should not be more than {Max_Hieght_Fly}"); Altitude = Max_Hieght_Fly; }
+                                    if (height > Max_Hieght_Fly)
 
-                        if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
-                        Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
-                        break;
+                                    {
+                                        throw new Exception($"Height should not be more than {Max_Hieght_Fly}");
 
-                    case "F":
-                        Forsage(Altitude);
-                        if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
-                        Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
-                        break;
+
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                    Altitude = Max_Hieght_Fly;
+                                }
+
+                                if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
+                                Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
+                                break;
+
+                            case "F":
+                                try
+                                {
+                                    Forsage(Altitude);
+                                    if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
+                                    if (Altitude > Max_Hieght_Fly)
+                                    {
+                                        throw new Exception($"Sorry!Height should not be more than {Max_Hieght_Fly}");
+                                    }
+                                }
+                                catch (Exception exx)
+                                {
+                                    Console.WriteLine(exx.Message);
+                                    // Altitude = Max_Hieght_Fly;
+                                }
+
+                                Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
+
+                                break;
                         }
                     }
                     else
@@ -92,6 +112,7 @@ namespace Abstract_class_airplane
 
             }
             while (Console.ReadKey().Key != ConsoleKey.Escape);
+            while (Console.ReadKey().Key != ConsoleKey.Escape) ;
         }
     }
 }

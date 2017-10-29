@@ -6,19 +6,13 @@ using System.Threading.Tasks;
 
 namespace Abstract_class_airplane
 {
-    class Passenger:AirPlane
+    class Passenger : AirPlane
     {
-        public Passenger(int capacity, float consuption, int altitudeIncrement) 
+        public Passenger(int capacity, float consuption, int altitudeIncrement)
             : base(capacity, consuption, altitudeIncrement) { }
-       
-        public new int Max_Hieght_Fly = 13700;
-        public override int Forsage(int increment)
-        {
-            if (increment * 2 > MaxAltitudeAuto) AutoPilotOn = false;
-            if (increment * 2 > Max_Hieght_Fly) { return Altitude = Max_Hieght_Fly; }
-            return Altitude = increment * 2;
 
-        }
+        public new int Max_Hieght_Fly = 13700;
+     
         public override void Switch()
         {
             do
@@ -54,29 +48,56 @@ namespace Abstract_class_airplane
                                 }
                                 else
                                 {
-                                  
-                                   throw new Exception("Unacceptable symbol");
-                                 
+
+                                    throw new Exception("Unacceptable symbol");
+
                                 }
                                 break;
 
                             case "C":
-                                Console.WriteLine("Enter altitude settings: ");
-                                int height = Int32.Parse(Console.ReadLine());
+                                try
+                                {
+                                    Console.WriteLine("Enter altitude settings: ");
+                                    int height = Int32.Parse(Console.ReadLine());
 
-                                if (height <= Max_Hieght_Fly) { Altitude = height; }
+                                    if (height <= Max_Hieght_Fly) { Altitude = height; }
 
-                                if (height > Max_Hieght_Fly)
-                                { Console.WriteLine($"Height should not be more than {Max_Hieght_Fly}"); Altitude = Max_Hieght_Fly; }
+                                    if (height > Max_Hieght_Fly)
+
+                                    {
+                                        throw new Exception($"Height should not be more than {Max_Hieght_Fly}");
+
+
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                    Altitude = Max_Hieght_Fly;
+                                }
 
                                 if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
                                 Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
                                 break;
 
                             case "F":
-                                Forsage(Altitude);
-                                if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
+                                try
+                                {
+                                    Forsage(Altitude);
+                                    if (Altitude < MinAltitudeAuto || Altitude > MaxAltitudeAuto) AutoPilotOn = false;
+                                    if (Altitude > Max_Hieght_Fly)
+                                    {
+                                        throw new Exception($"Sorry!Height should not be more than {Max_Hieght_Fly}");
+                                    }
+                                }
+                                catch (Exception exx)
+                                {
+                                    Console.WriteLine(exx.Message);
+                                    // Altitude = Max_Hieght_Fly;
+                                }
+
                                 Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
+
                                 break;
                         }
                     }
@@ -89,10 +110,10 @@ namespace Abstract_class_airplane
                 {
                     Console.WriteLine("Error: " + e.Message);
                 }
-                
-                }
+
+            }
             while (Console.ReadKey().Key != ConsoleKey.Escape);
-            
+            while (Console.ReadKey().Key != ConsoleKey.Escape) ;
         }
     }
 }
