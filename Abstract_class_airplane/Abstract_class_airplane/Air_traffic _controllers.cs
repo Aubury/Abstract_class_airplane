@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,21 @@ using System.Threading.Tasks;
 
 namespace Abstract_class_airplane
 {
-    class Passenger : AirPlane
+   abstract class Air_traffic__controllers
     {
-        public Passenger(int capacity, float consuption, int altitudeIncrement)
-            : base(capacity, consuption, altitudeIncrement) { }
+        public int Altitude { get; set; } //высота над уровнем моря
+        public bool AutoPilotOn { get; set; } //автопилот
+        public static int MinAltitudeAuto { get; set; }
+        public static int MaxAltitudeAuto { get; set; }
+        public  int Max_Hieght_Fly;//{ get; set; }
+        private int _altitudeIncrement;
+        public int Forsage(int increment)
+        {
+            if (increment * 2 > MaxAltitudeAuto) AutoPilotOn = false;
+            return Altitude = increment * 2;
 
-        public new int Max_Hieght_Fly = 13700; 
-        public override void Switch()
+        }
+        public virtual void Switch()
         {
             do
             {
@@ -92,7 +101,7 @@ namespace Abstract_class_airplane
                                 catch (Exception exx)
                                 {
                                     Console.WriteLine(exx.Message);
-                                    Altitude = Max_Hieght_Fly;
+                                 
                                 }
 
                                 Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);

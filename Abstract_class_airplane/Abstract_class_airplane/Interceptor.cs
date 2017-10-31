@@ -10,7 +10,7 @@ namespace Abstract_class_airplane
     {
         public Interceptor(int capacity, float consuption, int altitudeIncrement) 
             : base(capacity, consuption, altitudeIncrement) { }
-        public new int Max_Hieght_Fly = 31500;
+        public new int Max_Hieght_Fly= 31500;
    
         public override void Switch()
         {
@@ -92,7 +92,7 @@ namespace Abstract_class_airplane
                                 catch (Exception exx)
                                 {
                                     Console.WriteLine(exx.Message);
-                                    // Altitude = Max_Hieght_Fly;
+                                     Altitude = Max_Hieght_Fly;
                                 }
 
                                 Console.WriteLine("Altitude = {0}, Autopilot = {1}", Altitude, AutoPilotOn);
